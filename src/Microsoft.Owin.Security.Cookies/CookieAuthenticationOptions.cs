@@ -146,5 +146,10 @@ namespace Microsoft.Owin.Security.Cookies
         /// to the client. This can be used to mitigate potential problems with very large identities.
         /// </summary>
         public IAuthenticationSessionStore SessionStore { get; set; }
+
+        /// <summary>
+        /// The claim type to use in the authentication ticket identity when using <code>SessionStore</code>.
+        /// </summary>
+        public string SessionIdClaimType { get; set; }
     }
 }

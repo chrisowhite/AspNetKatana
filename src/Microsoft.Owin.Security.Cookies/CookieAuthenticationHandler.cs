@@ -57,7 +57,7 @@ namespace Microsoft.Owin.Security.Cookies
 
                 if (Options.SessionStore != null)
                 {
-                    Claim claim = ticket.Identity.Claims.FirstOrDefault(c => c.Type.Equals(SessionIdClaim));
+                    Claim claim = ticket.Identity.Claims.FirstOrDefault(c => c.Type.Equals(Options.SessionIdClaimType ?? SessionIdClaim));
                     if (claim == null)
                     {
                         _logger.WriteWarning(@"SessionId missing");
@@ -200,7 +200,7 @@ namespace Microsoft.Owin.Security.Cookies
                         }
                         _sessionKey = await Options.SessionStore.StoreAsync(model);
                         ClaimsIdentity identity = new ClaimsIdentity(
-                            new[] { new Claim(SessionIdClaim, _sessionKey) },
+                            new[] { new Claim(Options.SessionIdClaimType ?? SessionIdClaim, _sessionKey) },
                             Options.AuthenticationType);
                         model = new AuthenticationTicket(identity, null);
                     }
@@ -252,7 +252,7 @@ namespace Microsoft.Owin.Security.Cookies
                     {
                         await Options.SessionStore.RenewAsync(_sessionKey, model);
                         ClaimsIdentity identity = new ClaimsIdentity(
-                            new[] { new Claim(SessionIdClaim, _sessionKey) },
+                            new[] { new Claim(Options.SessionIdClaimType ?? SessionIdClaim, _sessionKey) },
                             Options.AuthenticationType);
                         model = new AuthenticationTicket(identity, null);
                     }
